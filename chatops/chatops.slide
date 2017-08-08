@@ -1,0 +1,212 @@
+ChatOps 分享
+2017年8月7日
+
+戚银
+深圳聚网视科技有限公司
+qiyin@thinkeridea.com
+
+* 目录
+- DevOps的概念
+- ChatOps的概念
+- 商业ChatOps实现
+- 开源ChatOps实现
+- Hubot
+- Git工作流
+- 持续集成（Continuous integration）
+- 持续交付 (Continuous Delivery)
+- 参考资料
+
+* DevOps的概念
+DevOps 是来源于 Development 和 Operations 的一个组合词，顾名思义，是一系列过程、方法与系统的统称，旨在促进开发、测试和运维人员之间的沟通与协作。简单来说，是通过引入一系列的「工具」，通过三种不同角色的开发成员间的「协作」而实现的一种「自动化」的工作模式。这种工作方式带来的好处显而易见：
+
+- 实现持续快速交付
+- 能够降低人力成本
+但很大程度上，DevOps 更多是指开发群体之间的一种协作模式（通常也在开发人员中实施），随着全行业的发展和人力成本的攀升，在团队所有角色间贯通的升级版「DevOps」逐渐登场，也就是我们将要重点介绍的 ChatOps。
+
+* 
+.image ./devops.png
+
+* ChatOps的概念
+ChatOps 的历史相对短暂，2013 年 GitHub 内部最早开始推行 ChatOps，希望能以聊天的方式更容易更快速的去完成 DevOps 承载的工作。
+ChatOps 以聊天室，即沟通平台为中心，通过一系列的机器人去对接后台的各种服务，工作人员只需要在聊天窗口中与机器人对话，即可与后台服务进行交互，整个工作的展开就像是使唤一个智能助手那样简单自然。
+ChatOps 站在巨人的肩膀上发展，也为工作带来了显而易见的好处：
+
+- 公开透明。所有的工作消息都在同一个聊天平台中沉淀并公开给所有相关成员，消除沟通壁垒，工作历史有迹可循，团队合作更加顺畅。
+- 上下文共享。减少因工作台切换等对消息的截断，保证消息的完整性，让工作承接有序，各角色，各工具都成为完成工作流中的一环，打造真正流畅的工作体验。
+- 移动友好。只需要在前台与预设好的机器人对话即可完成与后台工具、系统的交互，在移动环境下无需再与众多复杂的工具直接对接，大大提升移动办公的可行性。
+- DevOps 文化打造。用与机器人对话这种简单的方式降低 DevOps 的接受门槛，让这种自动化办公的理念更容易的扩展到团队的每一个角落。
+
+
+* 早期ChatOps实践
+国外早期的工作沟通工具 HipChat，新秀 Slack 都是作为 ChatOps 承载平台的好选择，在中文的环境下，则可以选择 BearyChat（倍洽）等等。
+.image ./github-2013-chatops.png _ 1000
+
+* ChatOps组成部分
+ChatOps 主要由四个部分组成，自动化的理念，一个沟通承载平台，一系列连接人与工具的机器人，一些后台工具和服务（基础设施）。
+.image ./chatops.png _ 1000
+
+* 
+.image ./chatops_devops.png _ 1000
+
+* 商业ChatOps实现
+- slack  聊天室
+- Hubot  机器人
+- GitHub 代码管理
+- Travis CI 自动化测试
+- heaven 自动部署
+- hubot-deploy 连接Hubot与heaven
+
+* 开源ChatOps实现
+- Recket.chat 聊天室
+- Hubot  机器人
+- GitLab 代码管理
+- GitLab CI 自动化测试
+- hubot-gitlab-deploy 自动化部署
+
+* Hubot
+在 GitHub 团队内部实现的 ChatOps 与一个叫做 Hubot 的机器人框架密切相关，Hubot 提供很多聊天机器人所需的基础设施，借助 Hubot 框架能比较方便的和自己编写的功能或自己的系统对接。目前，Hubot 已经发展出了较好的生态圈，有很多开源插件可以借用。
+.image ./hubot.png _ 900
+
+
+* Git工作流
+Git 作为一个源码管理系统，不可避免涉及到多人协作。
+
+协作必须有一个规范的工作流程，让大家有效地合作，使得项目井井有条地发展下去。
+"工作流程"在英语里，叫做"workflow"或者"flow"，原意是水流，比喻项目像水流那样，顺畅、自然地向前流动，不会发生冲击、对撞、甚至漩涡。
+
+广泛使用的Git工作流有三种：
+
+- Git flow
+- Github flow
+- Gitlab flow
+
+三种工作流程有一个共同点：都采用"功能驱动式开发"（Feature-driven development，简称FDD）。
+
+它指的是，需求是开发的起点，先有需求再有功能分支（feature branch）或者补丁分支（hotfix branch）。完成开发后，该分支就合并到主分支，然后被删除。
+
+* Git flow
+最早诞生、并得到广泛采用的一种工作流程，就是Git flow 。
+
+- 项目存在两个长期分支，前者用于存放对外发布的版本，任何时候在这个分支拿到的，都是稳定的分布版；后者用于日常开发，存放最新的开发版。
+    主分支master
+    开发分支develop
+    
+- 项目存在三种短期分支，一旦完成开发，它们就会被合并进develop或master，然后被删除。
+    功能分支（feature branch）
+    补丁分支（hotfix branch）
+    预发分支（release branch）
+
+* Git flow流程图
+Git flow的优点是清晰可控，缺点是相对复杂，需要同时维护两个长期分支。这个模式是基于"版本发布"的，目标是一段时间以后产出一个新版本。
+.image ./git_flow.png 500 _
+
+* Github flow
+Github flow 是Git flow的简化版，专门配合"持续发布"。它是 Github.com 使用的工作流程。
+
+它只有一个长期分支，就是master，因此用起来非常简单。
+
+.image ./github_flow.png _ 700
+
+- 根据需求，从master拉出新分支，不区分功能分支或补丁分支。
+- 新分支开发完成后，或者需要讨论的时候，就向master发起一个pull request。
+- Pull Request既是一个通知，让别人注意到你的请求，又是一种对话机制，大家一起评审和讨论你的代码。对话过程中，你还可以不断提交代码。
+- 你的Pull Request被接受，合并进master，重新部署后，原来你拉出来的那个分支就被删除。
+
+* GitHub flow流程图
+Github flow 的最大优点就是简单，对于"持续发布"的产品，可以说是最合适的流程。
+
+问题在于它的假设：master分支的更新与产品的发布是一致的。也就是说，master分支的最新代码，默认就是当前的线上代码。
+
+.image ./github_flow2.png _ 500
+
+* GitLab flow
+Gitlab flow 是 Git flow 与 Github flow 的综合。它吸取了两者的优点，既有适应不同开发环境的弹性，又有单一主分支的简单和便利。它是 Gitlab.com 推荐的做法。
+
+Gitlab flow 的最大原则叫做"上游优先"（upsteam first），即只存在一个主分支master，它是所有其他分支的"上游"。只有上游分支采纳的代码变化，才能应用到其他分支。
+
+GitLab 有两种流程
+
+- 对于"持续发布"的项目
+- 对于"版本发布"的项目
+
+* GitLab flow -- 持续发布
+对于"持续发布"的项目，它建议在master分支以外，再建立不同的环境分支。比如，"开发环境"的分支是master，"预发环境"的分支是pre-production，"生产环境"的分支是production。
+
+.image ./gitlab_flow1.png _ 400
+
+* GitLab flow -- 版本发布
+对于"版本发布"的项目，建议的做法是每一个稳定版本，都要从master分支拉出一个分支，比如2-3-stable、2-4-stable等等。
+以后，只有修补bug，才允许将代码合并到这些分支，并且此时要更新小版本号。
+
+.image ./gitlab_flow2.png _ 300
+
+* 我们的Git flow
+两个主要的分支
+
+- 主分支master
+- 开发分支develop
+
+两种协作分支
+
+- feature/   功能分支前缀
+- hotfix/    补丁分支前缀
+
+两种个人分支
+
+- your name/feature/   功能分支前缀
+- your name/hotfix/    补丁分支前缀
+
+* workflow
+
+- 所有需求先在协作分支或者个人分支上开发完成，然后再提交至develop，等待测试完成，合并到master。
+- 协作分支不能直接直接推送代码, 协作分支作为较大功能块，需要多人，长时间协作完成，大家先在个人分支完成自己负责的一部分，然后再合并到协作分支。
+
+* 持续集成（Continuous integration）
+互联网软件的开发和发布，已经形成了一套标准流程，最重要的组成部分就是持续集成（Continuous integration，简称CI）。
+
+持续集成指的是，频繁地（一天多次）将代码集成到主干。
+它的好处主要有两个。
+
+- 快速发现错误。每完成一点更新，就集成到主干，可以快速发现错误，定位错误也比较容易。
+- 防止分支大幅偏离主干。如果不是经常集成，主干又在不断更新，会导致以后集成的难度变大，甚至难以集成。
+
+持续集成的目的，就是让产品可以快速迭代，同时还能保持高质量。它的核心措施是，代码集成到主干之前，必须通过自动化测试。只要有一个测试用例失败，就不能集成。
+
+Martin Fowler说过，"持续集成并不能消除Bug，而是让它们非常容易发现和改正。"
+
+与持续集成相关的，还有两个概念，分别是持续交付和持续部署。
+
+
+* 持续交付 (Continuous Delivery)
+
+持续交付（Continuous delivery）指的是，频繁地将软件的新版本，交付给质量团队或者用户，以供评审。如果评审通过，代码就进入生产阶段。
+
+持续交付可以看作持续集成的下一步。它强调的是，不管怎么更新，软件是随时随地可以交付的。
+
+* 持续部署（continuous deployment）
+持续部署（continuous deployment）是持续交付的下一步，指的是代码通过评审以后，自动部署到生产环境。
+
+持续部署的目标是，代码在任何时刻都是可部署的，可以进入生产阶段。
+
+持续部署的前提是能自动化完成测试、构建、部署等步骤。
+
+* 持续交付 与 持续部署
+.image ./cd_diff.jpg
+
+* 参考资料
+- DevOps & ChatOps
+.link http://bearyinnovative.com/salon-chatops/
+.link http://blog.oneapm.com/apm-tech/381.html
+.link https://insights.sei.cmu.edu/devops/2015/01/chatops-in-the-devops-team.html
+.link http://searchitoperations.techtarget.com/definition/ChatOps
+.link https://blog.newrelic.com/2015/08/18/chatops/
+.link https://www.cloudbees.com/blog/chatops-devops-accelerant
+.link http://fabric8.io/guide/chat.html
+ 
+- CI & CD
+.link http://exceedhl.thoughtworkers.org/cd/cd.html
+ 
+ 
+ 
+ 
+ 
