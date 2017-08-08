@@ -1,0 +1,78 @@
+Present Golang幻灯片
+2016-08-06
+
+thinkercode
+
+
+* 简介
+
+present是随着golang诞生而出现的一种格式，Go核心开发成员似乎十分喜欢以这种格式分享Go语言。在Golang官方，几乎所有技术会议的talk幻灯片均是以.slide形式提供的。
+
+\.slide文件通过web服务查看，目前已知的render .slide文件的服务包括：
+
+- talks.golang.org
+- go-talks.appspot.com
+
+talks.golang.org是golang官方的服务，用于查看Go core team发表的各次技术演讲的幻灯片资料，按年份归档。
+其他Go开发者用.slide形式编写的文件可以放在自己的github.com repo中，并使用go-talks.appspot.com这个第三方服务render。
+
+
+* 为什么使用present
+
+- 书写语法自然简单，可以快速制作演讲分享幻灯片。
+- 界面简洁，有统一的展示效果，较适用于各种技术演讲。
+
+* present语法（首屏）
+首屏包含标题、副标题、日期、标签、作者信息及其他内容
+例如：
+
+    主标题
+    副标题
+    2016-08-06
+    Tags: demonstration, share
+    <blank line>
+    Author Name
+    Job title, Company
+    joe@example.com
+    http://url/
+    @twitter_name
+
+* 文档语法
+
+    * 开头表示文档页分割，后面的字符为文档页标题
+    ** 开头表示子标题
+    *** 开头表示子标题下的小标题
+    - 开头表示列表
+    tab开头表示内容不格式化
+    直接书写文字表示稍微比标题小一号的字
+    回车表示新的一行，普通文本行中间的换行会有效果，语法见的换行无效果，但能区别语法的上下文
+
+* 字体样式
+
+    _italic_    倾斜
+    *bold*      加粗
+    `program`   程序字体
+    _this_is_all_italic_
+    _Why_use_scoped__ptr_? Use plain ***ptr* instead.
+
+_this_is_all_italic_
+_Why_use_scoped__ptr_? Use plain ***ptr* instead.
+
+
+* 指令标记
+
+    .code test.go 显示程序源代码
+    .code test.go /START OMIT/,/END OMIT/  显示START OMIT到END OMIT之间的代码
+    .link http://golang.org 显示连接
+    .link http://golang.org golang.org 链接名字显示golang.org
+    .image images/betsy.jpg 显示图片
+    .images/betsy.jpg 100 200  指定图片大小
+    .image images/janet.jpg _ 300   指定图片高，宽自动按比例缩放
+    .video videos/evangeline.mp4 video/mp4  显示视频
+    .video videos/evangeline.mp4 video/mp4  指定视频大小
+    .background images/susan.jpg    背景图片
+    .html file.html    嵌入html
+    .caption _Gopher_ by [[http://www.reneefrench.com][Renée French]] 使用模板函数
+
+* 语法文档
+.link https://godoc.org/golang.org/x/tools/present
